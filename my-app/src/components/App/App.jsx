@@ -62,13 +62,17 @@ class App extends Component {
   render() {
     const { contacts, filter } = this.state;
     const filtratedContacts = this.filterContacts(contacts, filter);
+    console.log(filtratedContacts.length);
     return (
       <div className={styles.container}>
         <h1>Phonebook</h1>
         <ContactForm onAddItem={this.addItem} />
         <h2>Contacts</h2>
         <Filter onSetFilter={this.setFilter} />
-        <ContactList items={filtratedContacts} onDelete={this.deleteItem} />
+
+        {filtratedContacts.length > 0 ? (
+          <ContactList items={filtratedContacts} onDelete={this.deleteItem} />
+        ) : null}
       </div>
     );
   }
