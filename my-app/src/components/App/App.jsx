@@ -8,7 +8,7 @@ import styles from './App.module.css';
 class App extends Component {
   state = {
     contacts: [],
-    filter: '',
+    filtratedContacts: [],
   };
 
   componentDidMount() {
@@ -24,18 +24,6 @@ class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(contacts));
     }
   }
-
-  filterContacts = (contacts, filter) => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase()),
-    );
-  };
-
-  setFilter = ({ target }) => {
-    this.setState({
-      filter: target.value,
-    });
-  };
 
   addItem = item => {
     if (
@@ -59,18 +47,25 @@ class App extends Component {
     }));
   };
 
+  filterContacts = (contacts, filter) => {
+    this.setState({
+      filtratedContacts: contacts.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase()),
+      ),
+    });
+  };
+
   render() {
-    const { contacts, filter } = this.state;
-    const filtratedContacts = this.filterContacts(contacts, filter);
-    console.log(filtratedContacts.length);
+    const { contacts, filtratedContacts } = this.state;
+
     return (
       <div className={styles.container}>
         <h1>Phonebook</h1>
         <ContactForm onAddItem={this.addItem} />
         <h2>Contacts</h2>
-        <Filter onSetFilter={this.setFilter} />
+        <Filter contacts={contacts} onFiltrate={this.filterContacts} />
 
-        {filtratedContacts.length > 0 ? (
+        {filtratedContacts ? (
           <ContactList items={filtratedContacts} onDelete={this.deleteItem} />
         ) : null}
       </div>
