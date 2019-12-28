@@ -65,7 +65,7 @@ class App extends Component {
         <h2>Contacts</h2>
         <Filter contacts={contacts} onFiltrate={this.filterContacts} />
 
-        {filtratedContacts ? (
+        {filtratedContacts.length ? (
           <ContactList items={filtratedContacts} onDelete={this.deleteItem} />
         ) : null}
       </div>
